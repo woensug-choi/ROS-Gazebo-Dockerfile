@@ -57,7 +57,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Turtlesim 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ros-rolling-turtlesim x11-apps \
+    ros-rolling-turtlesim x11-apps mesa-utils\
     && rm -rf /var/lib/apt/lists/*
 
 # # -------- Gazebo Installation -------- #
