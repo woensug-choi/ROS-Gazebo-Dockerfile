@@ -1,3 +1,6 @@
+
+# This is an auto generated Dockerfile for ros:ros-core
+# generated from docker_images_ros2/create_ros_core_image.Dockerfile.em
 FROM ubuntu:jammy
 
 # setup timezone
@@ -47,7 +50,7 @@ RUN colcon mixin add default \
       https://raw.githubusercontent.com/colcon/colcon-metadata-repository/master/index.yaml && \
     colcon metadata update
 
-# -------- ROS Installation -------- #
+# -------- ROS 설치 -------- #
 # install ros2 packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-rolling-ros-core=0.10.0-2* \
@@ -55,14 +58,21 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-rolling-perception=0.10.0-2* \
     && rm -rf /var/lib/apt/lists/*
 
-# Turtlesim 
+# Turtlesim package install
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-rolling-turtlesim x11-apps mesa-utils\
     && rm -rf /var/lib/apt/lists/*
 
-# # -------- Gazebo Installation -------- #
-# RUN apt-get update && apt-get install -y --no-install-recommends \
-#     ros-${ROS_DISTRO}-ros-gz
+
+# gazebo - harmonic install
+RUN apt-get update
+RUN apt-get install lsb-release -y
+RUN apt-get install wget -y
+RUN apt-get install gnupg -y
+RUN	wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
+RUN	apt-get update 
+RUN	apt-get install gz-harmonic -y
 
 # setup entrypoint
 # COPY ./ros_entrypoint.sh /
