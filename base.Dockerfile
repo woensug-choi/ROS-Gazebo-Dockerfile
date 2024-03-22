@@ -53,25 +53,29 @@ RUN colcon mixin add default \
 # -------- ROS 설치 -------- #
 # install ros2 packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ros-humble-ros-core=0.10.0-1* \
-    ros-humble-ros-base=0.10.0-1* \
-    ros-humble-desktop=0.10.0-1* \
+    ros-rolling-ros-core=0.10.0-2* \
+    ros-rolling-ros-base=0.10.0-2* \
+    ros-rolling-perception=0.10.0-2* \
     && rm -rf /var/lib/apt/lists/*
 
 # Turtlesim package install
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ros-humble-turtlesim x11-apps mesa-utils\
+    ros-rolling-turtlesim x11-apps mesa-utils\
     && rm -rf /var/lib/apt/lists/*
 
 
-# gazebo - fortress install
+# gazebo - harmonic install
 RUN apt-get update
 RUN apt-get install lsb-release -y
 RUN apt-get install wget -y
 RUN apt-get install gnupg -y
 RUN	wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
 RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
-RUN apt-get update
-RUN	apt-get install ignition-fortress
+RUN	apt-get update 
+RUN	apt-get install gz-harmonic -y
 
-ENTRYPOINT [ "source /opt/ros/humble/setup.bash" ]
+# setup entrypoint
+# COPY ./ros_entrypoint.sh /
+
+# ENTRYPOINT ["/ros_entrypoint.sh"]
+CMD ["bash"]
