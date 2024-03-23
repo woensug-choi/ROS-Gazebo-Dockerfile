@@ -63,7 +63,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-rolling-turtlesim x11-apps mesa-utils\
     && rm -rf /var/lib/apt/lists/*
 
-
+# -------- Gazebo 설치 -------- #
 # gazebo - harmonic install
 RUN apt-get update
 RUN apt-get install lsb-release -y
@@ -74,8 +74,9 @@ RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/p
 RUN	apt-get update 
 RUN	apt-get install gz-harmonic -y
 
+
 # setup entrypoint
 COPY ./ros_entrypoint.sh /
 
-ENTRYPOINT ["/ros_entrypoint.sh"]
 # CMD ["bash"]
+ENTRYPOINT ["/ros_entrypoint.sh"]
