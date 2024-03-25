@@ -74,6 +74,24 @@ RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/p
 RUN	apt-get update 
 RUN	apt-get install gz-harmonic -y
 
+# --------- ROS-GZ 설치 --------- #
+RUN mkdir -p ~/ros_gz_ws/src
+WORKDIR /root/ros_gz_ws/src
+RUN git clone https://github.com/gazebosim/ros_gz.git -b ros2
+WORKDIR /root/ros_gz_ws
+RUN rosdep install -r --from-paths src -i -y --rosdistro rolling
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ros-rolling-actuator-msgs \
+    ros-rolling-vision-msgs \
+    ros-rolling-xacro \
+    ros-rolling-gps-msgs \
+    ros-rolling-sdformat-urdf \
+    ros-rolling-rviz2 \
+    ros-rolling-rqt-topic \
+    ros-rolling-rqt-plot \
+    ros-rolling-rqt-image-view \
+    && rm -rf /var/lib/apt/lists/*
+RUN colcon build
 
 # setup entrypoint
 COPY ./ros_entrypoint.sh /
