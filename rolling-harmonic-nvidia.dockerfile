@@ -121,7 +121,7 @@ RUN apt-get update && rosdep install -r --from-paths src -i -y --rosdistro rolli
     libgz-transport12-dev \
     libgz-sim7-dev \
     && rm -rf /var/lib/apt/lists/*
-RUN /bin/bash -c "source /opt/ros/rolling/setup.bash && colcon build"
+RUN /bin/bash -c "source /opt/ros/rolling/setup.bash && colcon build --parallel-workers 4"
 
 # setup entrypoint
 COPY ros_entrypoint.sh /home/ros_entrypoint.sh
