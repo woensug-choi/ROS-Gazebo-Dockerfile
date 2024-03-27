@@ -52,6 +52,7 @@ RUN echo "deb http://packages.ros.org/ros2/ubuntu jammy main" > /etc/apt/sources
 
 # setup keys
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+RUN cp /etc/apt/trusted.gpg /etc/apt/trusted.gpg.d
 
 # setup environment
 ENV LANG C.UTF-8
