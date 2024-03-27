@@ -29,7 +29,7 @@ RUN_ARGS=""
 # Determine if we have the nvidia runtime enabled. If so, default to exposing
 # all gpus.
 if docker info -f '{{ range $key, $value := .Runtimes }}{{ $key }}{{ end }}' | grep nvidia > /dev/null 2>&1; then
-    GPUS="--gpus all"
+    GPUS="--gpus all --runtime=nvidia"
     IMG="$IMG-nvidia"
     RUN_ARGS=""
 fi
@@ -50,7 +50,7 @@ case $key in
         shift
     ;;
     --nvidia)
-        GPUS="--gpus all"
+        GPUS="--gpus all --runtime=nvidia"
         shift
         ;;
     --run-args)
