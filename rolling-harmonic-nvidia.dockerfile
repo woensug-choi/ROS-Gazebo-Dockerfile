@@ -1,6 +1,3 @@
-
-# This is an auto generated Dockerfile for ros:ros-core
-# generated from docker_images_ros2/create_ros_core_image.Dockerfile.em
 FROM nvidia/opengl:1.0-glvnd-devel-ubuntu22.04
 
 # setup timezone
@@ -14,7 +11,39 @@ RUN echo 'Etc/UTC' > /etc/timezone && \
 RUN apt-get update && apt-get install -q -y --no-install-recommends \
     dirmngr \
     gnupg2 \
+    nano \
+    build-essential \
+    cmake \
+    cppcheck \
+    curl \
+    git \
+    gnupg \
+    libeigen3-dev \
+    libgles2-mesa-dev \
+    lsb-release \
+    pkg-config \
+    protobuf-compiler \
+    python3-dbg \
+    python3-pip \
+    python3-venv \
+    qtbase5-dev \
+    ruby \
+    software-properties-common \
+    sudo \
+    wget \
     && rm -rf /var/lib/apt/lists/*
+
+# Set User and give add as sudo user
+RUN addgroup --gid 1000 ioes \
+    && adduser --uid 1000 --ingroup ioes --home /home/ioes --shell /bin/sh --disabled-password --gecos '' ioes
+RUN adduser ioes sudo
+RUN echo 'ioes ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+# Color bash terminal
+ENV TERM=xterm-256color
+RUN echo "PS1='\[\e[01;36m\]\u\[\e[01;37m\]@\[\e[01;33m\]\H\[\e[01;37m\]:\[\e[01;32m\]\w\[\e[01;37m\]\$\[\033[0;37m\] '" >> /r>
+
+# ------ ROS 2 설치 ------ #
 
 # setup sources.list
 RUN echo "deb http://packages.ros.org/ros2/ubuntu jammy main" > /etc/apt/sources.list.d/ros2-latest.list
@@ -50,7 +79,6 @@ RUN colcon mixin add default \
       https://raw.githubusercontent.com/colcon/colcon-metadata-repository/master/index.yaml && \
     colcon metadata update
 
-# -------- ROS 설치 -------- #
 # install ros2 packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-rolling-ros-core=0.10.0-2* \
@@ -74,11 +102,11 @@ RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/p
 RUN	apt-get update 
 RUN	apt-get install gz-harmonic -y
 
-# --------- ROS-GZ 설치 --------- #
-RUN mkdir -p ~/ros_gz_ws/src
-WORKDIR /root/ros_gz_ws/src
+# --------- ROS-GZ 컴파일 테스트 --------- #
+RUN mkdir -p /home/ioes/ros_gz_ws/src
+WORKDIR /home/ioes/ros_gz_ws/src
 RUN git clone https://github.com/gazebosim/ros_gz.git -b ros2
-WORKDIR /root/ros_gz_ws
+WORKDIR /home/ioes/ros_gz_ws
 RUN rosdep install -r --from-paths src -i -y --rosdistro rolling
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-rolling-actuator-msgs \
@@ -96,7 +124,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN /bin/bash -c "source /opt/ros/rolling/setup.bash && colcon build"
 
 # setup entrypoint
-COPY ros_entrypoint.sh /usr/local/bin/ros_entrypoint.sh
-RUN  chmod 755 /usr/local/bin/ros_entrypoint.sh
-ENTRYPOINT ["/usr/local/bin/ros_entrypoint.sh"]
-CMD ["bash"]
+COPY ros_entrypoint.sh /home/ros_entrypoint.sh
+RUN  chmod +x /home/ros_entrypoint.sh
+ENTRYPOINT ["/home/ros_entrypoint.sh"]
+USER ioes:ioes
+CMD ["/bin/bash"]
