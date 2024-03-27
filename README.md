@@ -54,7 +54,7 @@
   
   ```bash
   xhost +
-  docker run -it --rm --privileged -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY -v ~/:/home/ioes/host ros-gazebo:latest
+  docker run -it --rm --privileged -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY -v ~/:/home/ioes-docker/host ros-gazebo:latest
   ```
 
 - Nvidia 그래픽 카드가 있는 리눅스머신
@@ -69,7 +69,7 @@
   
     ```bash
     xhost +
-    docker run --runtime=nvidia --rm --gpus all -v /dev/dri:/dev/dri -it --privileged -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY -v ~/:/home/ioes/host -v "/etc/localtime:/etc/localtime:ro" -e QT_X11_NO_MITSHM=1 --security-opt seccomp=unconfined ros-gazebo:latest
+    docker run --runtime=nvidia --rm --gpus all -v /dev/dri:/dev/dri -it --privileged -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY -v ~/:/home/ioes-docker/host -v "/etc/localtime:/etc/localtime:ro" -e QT_X11_NO_MITSHM=1 --security-opt seccomp=unconfined ros-gazebo:latest
     ```
 
 ---

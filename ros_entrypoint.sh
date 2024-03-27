@@ -5,6 +5,6 @@ set -e
 source "/opt/ros/$ROS_DISTRO/setup.bash" --
 
 # Move to host home directory
-cd /home/ioes/host
+cd /home/ioes-docker/host
 
 exec "$@"

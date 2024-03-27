@@ -41,4 +41,4 @@ elif [ "$num_containers" -gt "1" ]; then
     exit 1
 fi
 
-docker exec --privileged -e DISPLAY -it "${CONTAINER_ID}" bash -c "cd /home/ioes/host && exec bash"
+docker exec --privileged -e DISPLAY -it "${CONTAINER_ID}" bash -c "cd /home/ioes-docker/host && exec bash"

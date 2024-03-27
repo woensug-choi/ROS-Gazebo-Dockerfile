@@ -81,7 +81,7 @@ docker run -it \
   --rm \
   --security-opt seccomp=unconfined \
   -v /dev/dri:/dev/dri \
-  -v ~/:/home/ioes/host \
+  -v ~/:/home/ioes-docker/host \
   $RUN_ARGS \
   $GPUS \
   "$IMG" \

@@ -36,14 +36,14 @@ RUN apt-get update && apt-get install -q -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Set User and give add as sudo user
-RUN addgroup --gid 1000 ioes \
-    && adduser --uid 1000 --ingroup ioes --home /home/ioes --shell /bin/sh --disabled-password --gecos '' ioes
-RUN adduser ioes sudo
-RUN echo 'ioes ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN addgroup --gid 1000 ioes-docker \
+    && adduser --uid 1000 --ingroup ioes-docker --home /home/ioes-docker --shell /bin/sh --disabled-password --gecos '' ioes-docker
+RUN adduser ioes-docker sudo
+RUN echo 'ioes-docker ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # Color bash terminal
 ENV TERM=xterm-256color
-RUN echo "PS1='\[\e[01;36m\]\u\[\e[01;37m\]@\[\e[01;33m\]\H\[\e[01;37m\]:\[\e[01;32m\]\w\[\e[01;37m\]\$\[\033[0;37m\] '" >> /home/ioes/.bashrc
+RUN echo "PS1='\[\e[01;36m\]\u\[\e[01;37m\]@\[\e[01;33m\]\H\[\e[01;37m\]:\[\e[01;32m\]\w\[\e[01;37m\]\$\[\033[0;37m\] '" >> /home/ioes-docker/.bashrc
 
 # ------ ROS 2 설치 ------ #
 
@@ -105,10 +105,10 @@ RUN	apt-get update
 RUN	apt-get install gz-harmonic -y
 
 # --------- ROS-GZ 컴파일 테스트 --------- #
-RUN mkdir -p /home/ioes/ros_gz_ws/src
-WORKDIR /home/ioes/ros_gz_ws/src
+RUN mkdir -p /home/ioes-docker/ros_gz_ws/src
+WORKDIR /home/ioes-docker/ros_gz_ws/src
 RUN git clone https://github.com/gazebosim/ros_gz.git -b ros2
-WORKDIR /home/ioes/ros_gz_ws
+WORKDIR /home/ioes-docker/ros_gz_ws
 RUN rosdep install -r --from-paths src -i -y --rosdistro rolling
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-rolling-actuator-msgs \
@@ -129,5 +129,5 @@ RUN /bin/bash -c "source /opt/ros/rolling/setup.bash && colcon build"
 COPY ros_entrypoint.sh /home/ros_entrypoint.sh
 RUN  chmod +x /home/ros_entrypoint.sh
 ENTRYPOINT ["/home/ros_entrypoint.sh"]
-USER ioes:ioes
+USER ioes-docker:ioes-docker
 CMD ["/bin/bash"]
