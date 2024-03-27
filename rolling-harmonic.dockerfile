@@ -31,6 +31,8 @@ RUN apt-get update && apt-get install -q -y --no-install-recommends \
     software-properties-common \
     sudo \
     wget \
+    x11-apps \
+    mesa-utils \
     && rm -rf /var/lib/apt/lists/*
 
 # Set User and give add as sudo user
@@ -41,7 +43,7 @@ RUN echo 'ioes ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # Color bash terminal
 ENV TERM=xterm-256color
-RUN echo "PS1='\[\e[01;36m\]\u\[\e[01;37m\]@\[\e[01;33m\]\H\[\e[01;37m\]:\[\e[01;32m\]\w\[\e[01;37m\]\$\[\033[0;37m\] '" >> /r>
+RUN echo "PS1='\[\e[01;36m\]\u\[\e[01;37m\]@\[\e[01;33m\]\H\[\e[01;37m\]:\[\e[01;32m\]\w\[\e[01;37m\]\$\[\033[0;37m\] '" >> /home/ioes/.bashrc
 
 # ------ ROS 2 설치 ------ #
 
@@ -60,7 +62,6 @@ ENV ROS_DISTRO rolling
 # install bootstrap tools
 RUN apt-get update && apt-get install --no-install-recommends -y \
     build-essential \
-    git \
     python3-colcon-common-extensions \
     python3-colcon-mixin \
     python3-rosdep \
@@ -88,7 +89,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Turtlesim package install
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ros-rolling-turtlesim x11-apps mesa-utils\
+    ros-rolling-turtlesim \
     && rm -rf /var/lib/apt/lists/*
 
 # -------- Gazebo 설치 -------- #

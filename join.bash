@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-IMG="ioes-ros-gazebo"
+IMG="rolling-harmonic"
 CONTAINER_ID=""
 
 if docker info -f '{{ range $key, $value := .Runtimes }}{{ $key }}{{ end }}' | grep nvidia > /dev/null 2>&1; then
@@ -41,4 +41,4 @@ elif [ "$num_containers" -gt "1" ]; then
     exit 1
 fi
 
-docker exec --privileged -e DISPLAY -it "${CONTAINER_ID}" bash
+docker exec --privileged -e DISPLAY -it "${CONTAINER_ID}" bash -c "cd /home/ioes/host && exec bash"

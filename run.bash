@@ -23,16 +23,18 @@
 # Recommended:
 #   A joystick mounted to /dev/input/js0 or /dev/input/js1
 
-IMG="ioes-ros-gazebo:latest"
+IMG="rolling-harmonic"
 RUN_ARGS=""
 
 # Determine if we have the nvidia runtime enabled. If so, default to exposing
 # all gpus.
 if docker info -f '{{ range $key, $value := .Runtimes }}{{ $key }}{{ end }}' | grep nvidia > /dev/null 2>&1; then
     GPUS="--gpus all"
-    IMG="ioes-ros-gazebo-nvidia:latest"
+    IMG="$IMG-nvidia"
     RUN_ARGS=""
 fi
+
+IMG="$IMG:latest"
 
 while [[ $# -gt 0 ]]
 do
