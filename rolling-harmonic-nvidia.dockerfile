@@ -93,6 +93,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-rolling-turtlesim \
     && rm -rf /var/lib/apt/lists/*
 
+# Source rolling
+RUN echo "source /opt/ros/rolling/setup.bash" >> /home/ioes-docker/.bashrc
+
 # -------- Gazebo 설치 -------- #
 # gazebo - harmonic install
 RUN apt-get update
