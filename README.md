@@ -1,7 +1,5 @@
 # Dockerfile for ROS Rolling and Gazebo Garden
 
-## 특징
-
 ## 자동 스크립트 사용 빌드 & 실행
 
 - 자동으로 NVIDIA GPU 카드가 있는지 없는지 인식해서 빌드 및 실행
