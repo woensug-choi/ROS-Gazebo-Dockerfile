@@ -91,10 +91,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-rolling-rqt-plot \
     ros-rolling-rqt-image-view \
     && rm -rf /var/lib/apt/lists/*
-RUN colcon build
+# RUN colcon build
 
 # setup entrypoint
-COPY ./ros_entrypoint.sh /
+# COPY ./ros_entrypoint.sh /
 
 # CMD ["bash"]
-ENTRYPOINT ["/ros_entrypoint.sh"]
+# ENTRYPOINT ["/ros_entrypoint.sh"]

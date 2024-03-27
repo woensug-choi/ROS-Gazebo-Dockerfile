@@ -4,7 +4,7 @@
 - 필요한 Dockerfile을 만들어서 빌드하고 실행하면 됨
 
   ```bash
-  docker build -f base.Dockerfile -t ros-gazebo:latest .
+  docker build -f rolling-harmonic.dockerfile -t ros-gazebo:latest .
   ```
 
 - 맥
