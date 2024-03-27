@@ -5,7 +5,7 @@
 ## 자동 스크립트 사용 빌드 & 실행
 
 - 자동으로 NVIDIA GPU 카드가 있는지 없는지 인식해서 빌드 및 실행
-- Host머신의 홈디렉토리를 컨테이너의 /home/ioes/host에 마운트
+- Host머신의 홈디렉토리를 컨테이너의 도커 내부 host폴더에 마운트
 - (NVIDIA GPU카드가 있는경우!) 아래 사용전 Nvidia-Docker설치 및 설정 필요
   - nvidia-docker2 설치
     - 도커 컨테이너에 호스트 리눅스 머신의 nvidia 그래픽 카드를 사용하기 위해 nvidia-docker2를 설치
