@@ -19,14 +19,14 @@ set -Eeuo pipefail
 #
 
 # Determine the parent directory of this script, no matter how it is invoked.
-cd "$(dirname "$(readlink -f "$BASH_SOURCE")")/.."
+#cd "$(dirname "$(readlink -f "$BASH_SOURCE")")/.."
 
-image_name="ioes-ros-gazebo"
+image_name="rolling-harmonic"
 
 if docker info -f '{{ range $key, $value := .Runtimes }}{{ $key }}{{ end }}' | grep nvidia > /dev/null 2>&1; then
     image_name="$image_name-nvidia"
 fi
 
 image_plus_tag=$image_name:$(export LC_ALL=C; date +%Y_%m_%d_%H%M)
-docker build -t "$image_plus_tag" -t "$image_name:latest" -f "$image_name.dockerfile "$@" .
+docker build -t "$image_plus_tag" -t "$image_name:latest" -f "$image_name.dockerfile" "$@" .
 echo "Built $image_plus_tag and tagged as $image_name:latest"
