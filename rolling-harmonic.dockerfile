@@ -96,7 +96,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN /bin/bash -c "source /opt/ros/rolling/setup.bash && colcon build"
 
 # setup entrypoint
-# COPY ./ros_entrypoint.sh /
-
-# CMD ["bash"]
-# ENTRYPOINT ["/ros_entrypoint.sh"]
+COPY ros_entrypoint.sh /usr/local/bin/ros_entrypoint.sh
+RUN  chmod 755 /usr/local/bin/ros_entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/ros_entrypoint.sh"]
+CMD ["bash"]
