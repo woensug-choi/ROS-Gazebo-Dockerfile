@@ -93,8 +93,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgz-transport12-dev \
     libgz-sim7-dev \
     && rm -rf /var/lib/apt/lists/*
-RUN source /opt/ros/rolling/setup.bash
-RUN colcon build
+RUN /bin/bash -c "source /opt/ros/rolling/setup.bash && colcon build"
 
 # setup entrypoint
 # COPY ./ros_entrypoint.sh /
