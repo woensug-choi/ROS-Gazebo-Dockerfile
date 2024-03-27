@@ -108,8 +108,7 @@ RUN mkdir -p /home/ioes-docker/ros_gz_ws/src
 WORKDIR /home/ioes-docker/ros_gz_ws/src
 RUN git clone https://github.com/gazebosim/ros_gz.git -b ros2
 WORKDIR /home/ioes-docker/ros_gz_ws
-RUN apt-get update && rosdep install -r --from-paths src -i -y --rosdistro rolling  && rm -rf /var/lib/apt/lists/*
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && rosdep install -r --from-paths src -i -y --rosdistro rolling && apt-get install -y --no-install-recommends \
     ros-rolling-actuator-msgs \
     ros-rolling-vision-msgs \
     ros-rolling-xacro \
