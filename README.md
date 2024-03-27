@@ -13,3 +13,9 @@
 xhost +${HOSTNAME}
 docker run -it --privileged --env="DISPLAY=host.docker.internal:0" -v /dev:/dev --group-add dialout -v /tmp/.X11-unix:/tmp/.X11-unix:ro ros-gazebo
 ```
+
+- 리눅스
+
+```bash
+docker run -it --privileged -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY ros-gazebo:latest
+```

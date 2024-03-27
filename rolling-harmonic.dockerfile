@@ -90,8 +90,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ros-rolling-rqt-topic \
     ros-rolling-rqt-plot \
     ros-rolling-rqt-image-view \
+    libgz-transport12-dev \
+    libgz-sim7-dev \
     && rm -rf /var/lib/apt/lists/*
-# RUN colcon build
+RUN source /opt/ros/rolling/setup.bash
+RUN colcon build
 
 # setup entrypoint
 # COPY ./ros_entrypoint.sh /
